@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import (
 class Window(QWidget):
     def __init__(self):
         super().__init__()
-        self.originary = "12345"
+        self.password = "12345"
         self.setup_ui()
 
     def setup_ui(self):
@@ -17,7 +17,7 @@ class Window(QWidget):
         self.resize(200, 100)
 
         layout = QVBoxLayout()
-        layout.setContentsMargins(5, 5, 5, 5)
+        layout.setContentsMargins(15, 5, 15, 5)
         layout.setSpacing(10)
 
         self.password_input = QLineEdit()
@@ -27,6 +27,7 @@ class Window(QWidget):
         self.btn = QPushButton("Войти")
 
         self.btn.clicked.connect(self.check_password)
+        self.password_input.returnPressed.connect(self.check_password)
 
         layout.addWidget(self.info)
         layout.addWidget(self.password_input)
@@ -37,10 +38,14 @@ class Window(QWidget):
         user_text = self.password_input.text()
 
         if not user_text:
-            self.info.setText("<font color = 'red'> Введите пароль! </font>")
-        elif user_text == self.originary:
-            self.info.setText("<font color = 'green'> Доступ разрешён! </font>")
+            self.info.setStyleSheet("color: red;")
+            self.info.setText("Введите пароль!")
+        elif user_text == self.password:
+            self.info.setStyleSheet("color: green;")
+            self.info.setText("Доступ разрешён!")
+            self.password_input.clear()
         else:
-            self.info.setText("<font color = 'red'> Неверный пароль! </font>")
+            self.info.setStyleSheet("color: red;")
+            self.info.setText("Неверный пароль!")
             self.password_input.clear()
 
